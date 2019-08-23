@@ -44,6 +44,19 @@ def merge_two_dicts(x, y):
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
 
+def remove_punctuation(sentence):
+        no_punct = ''
+        for char in sentence:
+            if char not in string.punctuation:
+                no_punct = no_punct + char
+        return no_punct
+    
+stopwords = ["acuerdo", "adelante", "ademas","adrede","afirmó","agregó","ahi","ahora"]
+
+def remove_stopwords(words, stopwords):
+        result = [i for i in words if i not in stopwords]
+        return result
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
@@ -73,31 +86,6 @@ if __name__ == '__main__':
 
     train_texts = concat_data['intencion'].values
     t = list(train_texts)
-    
-    
-    def remove_punctuation(sentence):
-        no_punct = ''
-        for char in sentence:
-            if char not in string.punctuation:
-                no_punct = no_punct + char
-        return no_punct
-    
-#    def read_stopwords(file_path):
-#        stopwords = []
-#        with open(file_path, encoding="utf-8") as file:
-#            for line in file:
-#                line = line.strip()
-#                stopwords.append(line)
-#        return stopwords
-    
-#    stopwords = read_stopwords('dependencias/stopwords-es.txt')
-
-    stopwords = ["acuerdo", "adelante", "ademas","adrede","afirmó","agregó","ahi","ahora"]
-    
-    def remove_stopwords(words, stopwords):
-        result = [i for i in words if i not in stopwords]
-        return result
-    
     t_new = [remove_punctuation(w.lower()) for w in t]
     t_words_split = [w.split() for w in t_new]
     t_nonstop = [remove_stopwords(l,stopwords) for l in t_words_split]
